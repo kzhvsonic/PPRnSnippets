@@ -1,3 +1,5 @@
 PPRnSnippets
+その場しのぎで作った小物スクリプト達。PPRはPerl PHP Ruby の意。
 
-���̏ꂵ�̂��ō���������X�N���v�g�̕ۑ���
+- mkthumb.pl サムネール作成perlスクリプト
+- xrealog.cgi XREA のアクセスログ整形CGI
