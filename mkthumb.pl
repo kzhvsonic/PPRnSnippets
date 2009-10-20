@@ -1,7 +1,7 @@
 #!/usr/bin/perl
-# Image::Magick ‚ğg‚Á‚ÄAWordpress ‚ÌƒTƒ€ƒl[ƒ‹–½–¼–@‚É
-# ‚ ‚í‚¹‚½ƒtƒ@ƒCƒ‹–¼‚ÅƒTƒ€ƒl[ƒ‹‚ğˆêŠ‡ì¬B
-# ƒtƒ@ƒCƒ‹‚Íˆø”‚Åw’è
+# Image::Magick ã‚’ä½¿ã£ã¦ã€Wordpress ã®ã‚µãƒ ãƒãƒ¼ãƒ«å‘½åæ³•ã«
+# ã‚ã‚ã›ãŸãƒ•ã‚¡ã‚¤ãƒ«åã§ã‚µãƒ ãƒãƒ¼ãƒ«ã‚’ä¸€æ‹¬ä½œæˆã€‚
+# ãƒ•ã‚¡ã‚¤ãƒ«ã¯å¼•æ•°ã§æŒ‡å®š
 use strict;
 use warnings;
 use Carp;
@@ -10,18 +10,18 @@ use Image::Magick;
 my $MK = new MK_THUMB;
 
 foreach my $file (@ARGV){
-	$MK->mkthumb($file,150,1,0); # thumb‚ÍlŠp
-	$MK->mkthumb($file,320,0,0); # medium ƒƒfƒtƒHƒ‹ƒg‚Í300‚¾‚¯‚Ç‚Ë
+	$MK->mkthumb($file,150,1,1); # thumbã¯å››è§’
+	$MK->mkthumb($file,320,0,0); # medium ï¼œãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯300ã ã‘ã©ã­
 	$MK->mkthumb($file,800,0,0); # large
 }
 
 package MK_THUMB;
 #----------------------------------------------------------
-# ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+# ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 #----------------------------------------------------------
 sub new {
 	my $proto = shift;
-	my $bgcolor = shift || '#000'; # ƒTƒ€ƒl[ƒ‹‚ÌƒoƒbƒNƒJƒ‰[
+	my $bgcolor = shift || '#000'; # ã‚µãƒ ãƒãƒ¼ãƒ«ã®ãƒãƒƒã‚¯ã‚«ãƒ©ãƒ¼
 	my $class = ref($proto) || $proto;
 	my $self = {
 		'bgcolor' => $bgcolor,
@@ -30,7 +30,7 @@ sub new {
 }
 
 #----------------------------------------------------------
-# ƒTƒ€ƒl[ƒ‹ì¬
+# ã‚µãƒ ãƒãƒ¼ãƒ«ä½œæˆ
 #----------------------------------------------------------
 sub mkthumb {
 	my $self = shift;
@@ -41,8 +41,8 @@ sub mkthumb {
 		my($ix,$iy) = $img->Get('width','height');
 		return if($ix <= $size && $iy <= $size);
 		my($x,$y) = (0,0);
-		if( $square and !($fill) ){ # lŠp‚¢ƒTƒ€ƒl[ƒ‹(’·•ÓØ‚è—‚Æ‚µ)
-			if($ix < $iy){ # ’Z‚¢‚Ù‚¤‚ğŠî€‚É‚·‚é
+		if( $square and !($fill) ){ # å››è§’ã„ã‚µãƒ ãƒãƒ¼ãƒ«(é•·è¾ºåˆ‡ã‚Šè½ã¨ã—)
+			if($ix < $iy){ # çŸ­ã„ã»ã†ã‚’åŸºæº–ã«ã™ã‚‹
 				$x = $size;
 				$y = int($size / $ix * $iy);
 			}
@@ -55,7 +55,7 @@ sub mkthumb {
 			$x = $y = $size;
 		}
 		else{
-			if($ix > $iy){ # ’·‚¢‚Ù‚¤‚ğŠî€‚É‚·‚é
+			if($ix > $iy){ # é•·ã„ã»ã†ã‚’åŸºæº–ã«ã™ã‚‹
 				$x = $size;
 				$y = int($size / $ix * $iy);
 			}
@@ -64,14 +64,14 @@ sub mkthumb {
 				$y = $size;
 			}
 			$img->Resize(width=>$x,height=>$y);
-			if($fill){ # —]”’‚ğ–„‚ß‚ÄlŠp‚¢ƒTƒ€ƒl[ƒ‹‚É‚·‚é
+			if($fill){ # ä½™ç™½ã‚’åŸ‹ã‚ã¦å››è§’ã„ã‚µãƒ ãƒãƒ¼ãƒ«ã«ã™ã‚‹
 				$img->Extent(gravity=>'Center',width=>$size,height=>$size,background=>$self->{bgcolor});
 				$x = $y = $size;
 			}
 		}
 		my($base,$dir,$ext) = main::fileparse($file,qr/\.[^.]*/);
 		my $thumb = $dir.$base.'-'.$x.'x'.$y.$ext;
-		$warn = $img->Write(filename=>$thumb); # ‘‚«‚İ
+		$warn = $img->Write(filename=>$thumb); # æ›¸ãè¾¼ã¿
 	}
 	main::carp( $warn ) if $warn;
 }
